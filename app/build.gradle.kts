@@ -1,6 +1,3 @@
-import java.util.Properties
-import kotlin.apply
-
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
@@ -9,10 +6,7 @@ plugins {
     alias(libs.plugins.hilt)
     alias(libs.plugins.google.gms.google.services)
     alias(libs.plugins.google.firebase.crashlytics)
-}
-
-val localProps = Properties().apply {
-    load(File(rootDir, "local.properties").inputStream())
+    alias(libs.plugins.kotlinSerialization)
 }
 
 android {
@@ -52,9 +46,6 @@ android {
         compose = true
         buildConfig = true
     }
-    composeOptions {
-        kotlinCompilerExtensionVersion = "2.0.0"
-    }
     packaging {
         resources {
             excludes += "/META-INF/{AL2.0,LGPL2.1}"
@@ -63,17 +54,16 @@ android {
 }
 
 dependencies {
-    implementation(libs.javapoet)
-
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.activity.compose)
     implementation(platform(libs.androidx.compose.bom))
     implementation(libs.androidx.ui)
-
     implementation(libs.androidx.ui.graphics)
     implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.androidx.material3)
+    implementation(libs.firebase.crashlytics)
+    implementation(libs.firebase.analytics)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
@@ -81,16 +71,10 @@ dependencies {
     androidTestImplementation(libs.androidx.ui.test.junit4)
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
+    implementation(libs.kotlin.serialization.json)
+    implementation(libs.androidx.security.crypto)
 
-    // Jetpack Compose ve Core KTX bağımlılıklarını da güncelleyin
-    implementation(libs.ui)
-    implementation(libs.material3)
-    implementation(libs.androidx.navigation.compose)
-    implementation(libs.androidx.core.ktx)
-    implementation(libs.androidx.lifecycle.runtime.ktx.v270)
-    implementation(libs.androidx.activity.compose)
-
-    // Hilt Dependency Injection
+    // Hilt
     implementation(libs.hilt.android)
     ksp(libs.hilt.compiler)
     implementation(libs.androidx.hilt.navigation.compose)
@@ -98,10 +82,22 @@ dependencies {
     //Navigation
     implementation(libs.navigation.compose)
 
-    // Coroutine support
     implementation(libs.kotlinx.coroutines.android)
+    implementation(libs.retrofit)
+    implementation(libs.gson)
+    implementation(libs.converter.gson)
+    implementation(libs.logging.interceptor)
 
-    implementation(platform(libs.firebase.bom))
-    implementation(libs.firebase.analytics)
-    implementation(libs.firebase.auth.ktx)
+    implementation(libs.kotlinx.coroutines.core)
+
+    implementation(libs.coil.compose)
+    implementation(libs.androidx.datastore.preferences)
+
+    // Timber
+    implementation(libs.timber)
+
+    // chucker
+    debugImplementation(libs.chucker)
+    releaseImplementation(libs.chucker.no.op)
+
 }
