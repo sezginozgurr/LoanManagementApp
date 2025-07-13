@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">LoanManagementApp</string>
+    <string name="generic_error">Teknik Bir Hata Oluştu</string>
 </resources>

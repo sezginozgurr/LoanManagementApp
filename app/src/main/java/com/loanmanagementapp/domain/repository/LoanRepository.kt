@@ -1,5 +1,8 @@
-package com.loanmanagementapp.data
+package com.loanmanagementapp.domain.repository
+
 import android.content.Context
+import com.loanmanagementapp.data.model.response.Loan
+import com.loanmanagementapp.data.service.LoanService
 import dagger.hilt.android.scopes.ViewModelScoped
 import javax.inject.Inject
 
