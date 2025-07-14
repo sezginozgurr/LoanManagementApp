@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.height
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -43,6 +44,7 @@ fun RegisterScreen(
             onValueChange = { email = it },
             modifier = Modifier
                 .fillMaxWidth()
+                .height(70.dp)
                 .padding(bottom = 12.dp)
         )
 
@@ -52,6 +54,7 @@ fun RegisterScreen(
             onValueChange = { password = it },
             modifier = Modifier
                 .fillMaxWidth()
+                .height(70.dp)
                 .padding(bottom = 12.dp)
         )
 
@@ -61,6 +64,7 @@ fun RegisterScreen(
             onValueChange = { phone = it },
             modifier = Modifier
                 .fillMaxWidth()
+                .height(70.dp)
                 .padding(bottom = 24.dp)
         )
 

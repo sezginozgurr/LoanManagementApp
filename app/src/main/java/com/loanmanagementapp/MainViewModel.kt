@@ -16,35 +16,6 @@ class MainViewModel @Inject constructor(
     //private val autManager: AuthManager,
 ) : CoreViewModel(eventPublisher, resourceProvider) {
 
-    private val _initialDestination = MutableStateFlow<Destination>(Destination.Empty)
+    private val _initialDestination = MutableStateFlow<Destination>(Destination.Login)
     val initialDestination: StateFlow<Destination> = _initialDestination
-
-    init {
-        checkFirstRun()
-    }
-
-    private fun dismissSplash(savedPhoneNumber: String?, isFirstRun: Boolean = true) {
-        when {
-
-            isFirstRun -> {
-                _initialDestination.value = Destination.Onboarding
-            }
-
-            savedPhoneNumber != null -> {
-                _initialDestination.value = Destination.Login
-            }
-
-            else -> {
-                _initialDestination.value = Destination.Login
-            }
-        }
-    }
-
-    fun updateDestination() {
-        _initialDestination.value = Destination.Login
-    }
-
-    private fun checkFirstRun() {
-        //dismissSplash(savedPhoneNumber)
-    }
 }

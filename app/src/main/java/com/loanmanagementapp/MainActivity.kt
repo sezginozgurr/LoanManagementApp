@@ -60,9 +60,7 @@ class MainActivity : ComponentActivity() {
                             ).show()
                         }
 
-                        UiEvent.NavigateToLogin -> {
-                            viewModel.updateDestination()
-                        }
+                        UiEvent.NavigateToLogin -> {}
                     }
                 }
                 if (isLoading) {

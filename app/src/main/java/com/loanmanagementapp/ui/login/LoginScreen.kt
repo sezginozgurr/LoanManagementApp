@@ -4,6 +4,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -19,11 +20,15 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.loanmanagementapp.core.components.PrimaryButton
 import com.loanmanagementapp.core.components.SitTextField
 import com.loanmanagementapp.utils.extension.collectFlow
+import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
+import com.loanmanagementapp.navigation.Destination
 
 @Composable
 fun LoginScreen(
     viewModel: LoginViewModel = hiltViewModel(),
-    onLoginSuccess: () -> Unit
+    onLoginSuccess: () -> Unit,
+    navController: NavController
 ) {
     val state by viewModel.state.collectAsState()
 
@@ -42,6 +47,7 @@ fun LoginScreen(
             onValueChange = { email = it },
             modifier = Modifier
                 .fillMaxWidth()
+                .height(70.dp)
                 .padding(bottom = 12.dp)
         )
 
@@ -51,14 +57,25 @@ fun LoginScreen(
             onValueChange = { password = it },
             modifier = Modifier
                 .fillMaxWidth()
+                .height(70.dp)
                 .padding(bottom = 24.dp)
         )
 
         PrimaryButton(
-            text = if (state.isLoading) "Logging in..." else "Login",
-            enabled = !state.isLoading,
+            text = "Login",
+            enabled = true,
             actionClickListener = {
                 viewModel.login(email, password)
+            }
+        )
+
+        androidx.compose.foundation.layout.Spacer(modifier = Modifier.padding(top = 24.dp))
+
+        PrimaryButton(
+            text = "Kayıt Ol",
+            enabled = true,
+            actionClickListener = {
+                navController.navigate(Destination.Register)
             }
         )
 

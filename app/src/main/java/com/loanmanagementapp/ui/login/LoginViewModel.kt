@@ -32,8 +32,4 @@ class LoginViewModel @Inject constructor(
             }
         )
     }
-
-    override fun handleLoading(isShowing: Boolean) {
-        _state.update { it.copy(isLoading = isShowing) }
-    }
 }
