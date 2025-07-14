@@ -27,6 +27,18 @@ suspend fun <T> safeApiCallWithRestResponse(call: suspend () -> RestResponse<T>)
     }
 }
 
+suspend fun <T> safeApiCall(
+    apiCall: suspend () -> T
+): RestResult<T> {
+    return try {
+        val response = apiCall()
+        RestResult.Success(response)
+    } catch (e: Exception) {
+        RestResult.Failure(e)
+    }
+}
+
+
 suspend fun <T> safeApiCallWithResponse(call: suspend () -> Response<T>): RestResult<T> {
     return try {
         val response = call()
@@ -48,7 +60,6 @@ suspend fun <T> safeApiCallWithResponse(call: suspend () -> Response<T>): RestRe
         RestResult.Failure(throwable = e)
 
     } catch (ex: Exception) {
-        // Diğer genel hatalar
         RestResult.Failure(throwable = ex)
     }
 }
