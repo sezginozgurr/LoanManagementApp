@@ -8,6 +8,13 @@ import com.loanmanagementapp.core.event.UiEventPublisher
 import com.loanmanagementapp.domain.repository.LoanRepository
 import com.loanmanagementapp.data.service.LoanService
 import com.loanmanagementapp.data.MockLoanService
+import com.loanmanagementapp.data.mapper.LoanManagementMapper
+import com.loanmanagementapp.manager.FirebaseAuthManager
+import com.loanmanagementapp.manager.FirestoreManager
+import com.loanmanagementapp.domain.repository.LoanManagementRepository
+import com.loanmanagementapp.data.repository.LoanManagementRepositoryImpl
+import kotlinx.coroutines.CoroutineDispatcher
+import com.loanmanagementapp.di.IoDispatcher
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -66,9 +73,35 @@ object AppModule {
     @Singleton
     fun provideLoanRepository(loanService: LoanService): LoanRepository = LoanRepository(loanService)
 
-    /* @Provides
+    @Provides
     @Singleton
-    fun provideAuthManager(
-        securePrefs: SecureSharedPrefs
-    ): AuthManager = AuthManagerImpl(securePrefs) */
+    fun provideFirebaseAuth(): com.google.firebase.auth.FirebaseAuth = com.google.firebase.auth.FirebaseAuth.getInstance()
+
+    @Provides
+    @Singleton
+    fun provideFirebaseAuthManager(firebaseAuth: com.google.firebase.auth.FirebaseAuth): com.loanmanagementapp.manager.FirebaseAuthManager =
+        com.loanmanagementapp.manager.FirebaseAuthManager(firebaseAuth)
+
+    @Provides
+    @Singleton
+    fun provideFirebaseFirestore(): com.google.firebase.firestore.FirebaseFirestore = com.google.firebase.firestore.FirebaseFirestore.getInstance()
+
+    @Provides
+    @Singleton
+    fun provideFirestoreManager(firestore: com.google.firebase.firestore.FirebaseFirestore): com.loanmanagementapp.manager.FirestoreManager =
+        com.loanmanagementapp.manager.FirestoreManager(firestore)
+
+    @Provides
+    @Singleton
+    fun provideLoanManagementRepository(
+        mapper: LoanManagementMapper,
+        firebaseAuthManager: FirebaseAuthManager,
+        firestoreManager: FirestoreManager,
+        @IoDispatcher dispatcher: CoroutineDispatcher
+    ): LoanManagementRepository = LoanManagementRepositoryImpl(
+        mapper,
+        firebaseAuthManager,
+        firestoreManager,
+        dispatcher
+    )
 } 
