@@ -2,17 +2,18 @@ package com.loanmanagementapp.data.repository
 
 import com.loanmanagementapp.core.network.RestResult
 import com.loanmanagementapp.data.mapper.LoanManagementMapper
+import com.loanmanagementapp.data.model.response.LoginResponse
+import com.loanmanagementapp.data.model.response.RegisterResponse
+import com.loanmanagementapp.domain.model.LoginUiModel
+import com.loanmanagementapp.domain.model.RegisterUiModel
 import com.loanmanagementapp.domain.repository.LoanManagementRepository
 import com.loanmanagementapp.manager.FirebaseAuthManager
 import com.loanmanagementapp.manager.FirestoreManager
-import com.loanmanagementapp.data.model.response.LoginResponse
-import com.loanmanagementapp.domain.model.LoginUiModel
-import com.loanmanagementapp.data.model.response.RegisterResponse
-import com.loanmanagementapp.domain.model.RegisterUiModel
 import com.loanmanagementapp.manager.UserDto
 import com.loanmanagementapp.utils.extension.safeApiCall
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.withContext
+import timber.log.Timber
 import javax.inject.Inject
 
 class LoanManagementRepositoryImpl @Inject constructor(
@@ -32,16 +33,19 @@ class LoanManagementRepositoryImpl @Inject constructor(
                 val authResult = firebaseAuthManager.register(email, password)
                 val uid = authResult.user?.uid ?: throw Exception("UID null")
 
-                firestoreManager.saveUser(uid, UserDto(email, phone))
-                RegisterResponse(
-                    uid = uid,
-                    email = email,
-                    phone = phone
-                )
-            }.map {
-                mapper.mapToRegisterUiModel(it)
+                //buna gerek yokta hms'se bazen security hatası alınabilir
+                    try {
+                        firestoreManager.saveUser(uid, UserDto(email, phone))
+                    } catch (e: Exception) {
+                        Timber.e(e, "Firestore saveUser failed")
+                    }
+
+                val response = RegisterResponse(uid, email, phone)
+                mapper.mapToRegisterUiModel(response)
             }
         }
+
+
 
     override suspend fun login(
         email: String,
