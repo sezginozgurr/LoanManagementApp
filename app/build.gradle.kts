@@ -100,9 +100,9 @@ dependencies {
     debugImplementation(libs.chucker)
     releaseImplementation(libs.chucker.no.op)
 
-    implementation(platform("com.google.firebase:firebase-bom:33.16.0"))
+    implementation(platform(libs.firebase.bom))
 
-    implementation("com.google.firebase:firebase-auth")
-    implementation("com.google.firebase:firebase-firestore-ktx")
+    implementation(libs.firebase.auth)
+    implementation(libs.firebase.firestore.ktx)
 
 }

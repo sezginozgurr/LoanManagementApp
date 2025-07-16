@@ -10,9 +10,10 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import com.loanmanagementapp.ui.theme.black
+import com.loanmanagementapp.ui.home.HomeScreen
 import com.loanmanagementapp.ui.login.LoginScreen
 import com.loanmanagementapp.ui.register.RegisterScreen
+import com.loanmanagementapp.ui.theme.black
 
 @Composable
 fun NavigationGraph(
@@ -53,20 +54,13 @@ fun NavigationGraph(
                     .background(black),
             )
         }
-        /* composable<Destination.Onboarding> {
-           OnboardingScreen(
-               navigateToLoginScreen = {
-                   navController.navigate(Destination.Login) {
-                       popUpTo<Destination.Onboarding> { inclusive = true }
-                   }
-               }
-           )
-       } */
 
         composable<Destination.Login> {
             LoginScreen(
                 onLoginSuccess = {
-                    // Başarılı giriş sonrası yönlendirme yapılacaksa buraya ekle
+                    navController.navigate(Destination.Home) {
+                        popUpTo<Destination.Onboarding> { inclusive = true }
+                    }
                 },
                 navController = navController
             )
@@ -74,9 +68,14 @@ fun NavigationGraph(
         composable<Destination.Register> {
             RegisterScreen(
                 onRegisterSuccess = {
-                    // Kayıt başarılı olunca yönlendirme yapılacaksa buraya ekle
+                    navController.navigate(Destination.Home) {
+                        popUpTo<Destination.Onboarding> { inclusive = true }
+                    }
                 }
             )
+        }
+        composable<Destination.Home> {
+            HomeScreen()
         }
     }
 }

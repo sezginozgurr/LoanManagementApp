@@ -8,7 +8,7 @@ class FirestoreManager @Inject constructor(
     private val firestore: FirebaseFirestore
 ) {
     suspend fun saveUser(uid: String, userDto: UserDto) {
-        firestore.collection("users").document(uid).set(userDto).await()
+        firestore.collection("users").document(uid).set(userDto)
     }
 
     suspend fun getUser(uid: String): UserDto? {

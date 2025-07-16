@@ -17,4 +17,7 @@ sealed class Destination {
     @Serializable
     data object Register : Destination()
 
+    @Serializable
+    data object Home : Destination()
+
 }

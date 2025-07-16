@@ -1,4 +1,8 @@
 <resources>
     <string name="app_name">LoanManagementApp</string>
     <string name="generic_error">Teknik Bir Hata Oluştu</string>
+    <string name="login_email">Email</string>
+    <string name="login_password">Password</string>
+    <string name="login_register_button_text">Kayıt Ol</string>
+    <string name="register_phone">Phone</string>
 </resources>
